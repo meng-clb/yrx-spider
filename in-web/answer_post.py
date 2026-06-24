@@ -4,7 +4,7 @@ import requests
 from requests import session
 
 
-def sum_total(url, cookies, headers={}, client=requests):
+def sum_total(url, cookies, headers={}, client=requests, verify=False):
     """
     可以获取到数据之后，批量获取数据，并进行计算total
     :param url: 题目的url
@@ -20,9 +20,9 @@ def sum_total(url, cookies, headers={}, client=requests):
         }
         print(f'=========== 第{i}页 ===========')
         if client == session:
-            resp = client.post(url=url, cookies=cookies, data=data)
+            resp = client.post(url=url, cookies=cookies, data=data, verify=verify)
         elif client == requests:
-            resp = client.post(url=url, data=data, cookies=cookies, headers=headers)
+            resp = client.post(url=url, data=data, cookies=cookies, headers=headers, verify=verify)
         re = resp.json()['data']
         for r in re:
             total += int(r['value'])
@@ -30,7 +30,7 @@ def sum_total(url, cookies, headers={}, client=requests):
     return total
 
 
-def answer(total, cookies, id, headers={}, client=requests):
+def answer(total, cookies, id, headers={}, client=requests, verify=False):
     """
     获取到数据之后，计算完毕，提交数据
     """
@@ -40,9 +40,10 @@ def answer(total, cookies, id, headers={}, client=requests):
     }
 
     if client == session:
-        resp = client.post('https://www.python-spider.com/challenge/api/check', cookies=cookies, data=data)
+        resp = client.post('https://www.python-spider.com/challenge/api/check', cookies=cookies, data=data,
+                           verify=verify)
     else:
         resp = client.post('https://www.python-spider.com/challenge/api/check', cookies=cookies, headers=headers,
-                           data=data)
+                           data=data, verify=verify)
 
     print(resp.json())
