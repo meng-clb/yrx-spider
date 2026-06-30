@@ -2,5 +2,9 @@
 .venv312/*
 
 .env
+.env.local
+.env.*.local
+*.pem
+*.key
 __pycache__
 node_modules
